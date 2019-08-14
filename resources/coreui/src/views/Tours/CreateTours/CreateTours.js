@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class CreateTours extends Component {
     constructor(props) {
-        super(props)
+        super(props);
     }
 
     render() {
@@ -13,3 +13,5 @@ class CreateTours extends Component {
         )
     }
 }
+
+export default CreateTours;

@@ -10,10 +10,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {
-    return view('home');
-});
-
-Route::get('/dashboard', function () {
-    return view('home');
+Route::get('/', 'FrontController@index');
+Route::get('/dashboard', 'FrontController@index');
+Route::prefix('campaign')->middleware(['web'])->group(function () {
+    Route::get('list', 'FrontController@index');
+    Route::get('create', 'FrontController@index');
+    Route::get('edit/{id}', 'FrontController@index');
 });

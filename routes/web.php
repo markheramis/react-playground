@@ -12,6 +12,7 @@
 */
 Route::get('/', 'FrontController@index');
 Route::get('/login','FrontController@index');
+Route::get('/register','FrontController@index');
 Route::get('/dashboard', 'FrontController@index');
 Route::prefix('campaign')->middleware(['web'])->group(function () {
     Route::get('list', 'FrontController@index');

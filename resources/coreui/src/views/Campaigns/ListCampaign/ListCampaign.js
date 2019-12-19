@@ -10,11 +10,32 @@ import {
   PaginationItem,
   PaginationLink
 } from "reactstrap";
+
+import axios from 'axios';
+
 class ListCampaign extends Component {
+  /**
+   * [constructor description]
+   *
+   * @param   {object}  props  [props description]
+   *
+   * @return  null
+   */
   constructor(props) {
     super(props);
   }
 
+  componentDidMount() {
+    axios.get('https://localhost:8000/api/campaign').then((response) => {
+      let campaigns = response.data;
+      this.setState({campaigns})
+    })
+  }
+  /**
+   * [render description]
+   *
+   * @return  HTML  the template to render
+   */
   render() {
     return (
       <div className="animated fadeIn">

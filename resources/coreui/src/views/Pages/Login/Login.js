@@ -1,8 +1,59 @@
 import React, {Component} from 'react';
-import {Container, Row, Col, CardGroup, Card, CardBody, Button, Input, InputGroup, InputGroupAddon} from 'reactstrap';
-
+import {
+  Container, 
+  Row, 
+  Col, 
+  CardGroup, 
+  Card, 
+  CardBody, 
+  Button, 
+  Input, 
+  InputGroup, 
+  InputGroupAddon
+} from 'reactstrap';
+import AuthService from '../../../service/AuthService'
 
 class Login extends Component {
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      email: '',
+      password: '',
+      message: ''
+    }
+
+    this.self = this
+
+    this.onSubmit = this.onSubmit.bind(this)
+    this.onChange = this.onChange.bind(this)
+  }
+
+  componentDidMount() {
+    localStorage.clear();
+  }
+
+  onSubmit (e) {
+    e.preventDefault();
+    const credentials = {
+      username: this.state.email,
+      password: this.state.password
+    };
+    AuthService.login(credentials).then( response => {
+      if(!response.errors) {
+        // Login success
+        localStorage.setItem("u", JSON.stringify(response.data))
+      }else{
+        // Login failed
+      }
+    })
+  }
+
+  onChange (e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
   render() {
     return (
       <div className="app flex-row align-items-center">
@@ -12,32 +63,34 @@ class Login extends Component {
               <CardGroup>
                 <Card className="p-4">
                   <CardBody>
-                    <h1>Login</h1>
-                    <p className="text-muted">Sign In to your account</p>
-                    <InputGroup className="mb-3">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text">
-                          <i className="icon-user"></i>
-                        </span>
-                      </div>
-                      <Input type="text" placeholder="Username"/>
-                    </InputGroup>
-                    <InputGroup className="mb-4">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text">
-                          <i className="icon-lock"></i>
-                        </span>
-                      </div>
-                      <Input type="password" placeholder="Password"/>
-                    </InputGroup>
-                    <Row>
-                      <Col xs="6">
-                        <Button color="primary" className="px-4">Login</Button>
-                      </Col>
-                      <Col xs="6" className="text-right">
-                        <Button color="link" className="px-0">Forgot password?</Button>
-                      </Col>
-                    </Row>
+                    <form onSubmit={this.onSubmit}>
+                      <h1>Login</h1>
+                      <p className="text-muted">Sign In to your account</p>
+                      <InputGroup className="mb-3">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text">
+                            <i className="icon-user"></i>
+                          </span>
+                        </div>
+                        <Input type="email" name="email" value={this.state.email} onChange={this.onChange.bind(this)} placeholder="Enter Username" />
+                      </InputGroup>
+                      <InputGroup className="mb-4">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text">
+                            <i className="icon-lock"></i>
+                          </span>
+                        </div>
+                        <Input type="password" name="password" value={this.state.password} onChange={this.onChange.bind(this)} placeholder="Password" />
+                      </InputGroup>
+                      <Row>
+                        <Col xs="6">
+                          <Button type="submit" color="primary" className="px-4">Login</Button>
+                        </Col>
+                        <Col xs="6" className="text-right">
+                          <Button color="link" className="px-0">Forgot password?</Button>
+                        </Col>
+                      </Row>
+                    </form>
                   </CardBody>
                 </Card>
                 <Card className="text-white bg-primary py-5 d-md-down-none" style={{ width: 44 + '%' }}>

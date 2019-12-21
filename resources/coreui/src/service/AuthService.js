@@ -9,7 +9,7 @@ class AuthService {
      * @return  axios  returns an axios response.
      */
     login (credentials) {
-        return axios.post('http://localhost:8000/login', credentials);
+        return axios.post('http://localhost:8000/api/login', credentials);
     }
 
     /**
@@ -19,6 +19,10 @@ class AuthService {
      */
     getUser() {
         return JSON.parse(localStorage.getItem("u"));
+    }
+
+    isLoggedIn() {
+        return (localStorage.getItem("u"))
     }
 
     /**

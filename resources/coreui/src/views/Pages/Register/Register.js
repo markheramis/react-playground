@@ -1,24 +1,32 @@
 import React, {Component} from 'react';
+import UserService from '../../../service/UserService';
+
 import {
-  Container, 
-  Row, 
-  Col, 
-  Card, 
-  CardBody, 
-  CardFooter, 
-  Button, 
-  Input, 
-  InputGroup, 
+  Container,
+  Row,
+  Col,
+  Card,
+  CardBody,
+  CardFooter,
+  Button,
+  Input,
+  InputGroup,
   InputGroupAddon
 } from 'reactstrap';
-
 class Register extends Component {
 
+  /**
+   * [constructor description]
+   *
+   * @param   {[type]}  props  [props description]
+   *
+   * @return  {[type]}         [return description]
+   */
   constructor(props) {
     super(props)
 
     this.state = {
-      username: '',
+      name: '',
       email: '',
       password: '',
       password2: ''
@@ -27,28 +35,58 @@ class Register extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
   }
-
+  /**
+   * [componentDidMount description]
+   *
+   * @return  {[type]}  [return description]
+   */
   componentDidMount() {
-    localStorage.clear()
+    if (AuthService.getUser()) {
+      // if has user session
+      this.props.history.push('/')
+    } else {
+      // if no user session
+      localStorage.clear(); // make sure everything is cleaned
+    }
   }
-
+  /**
+   * [onSubmit description]
+   *
+   * @param   {[type]}  e  [e description]
+   *
+   * @return  {[type]}     [return description]
+   */
   onSubmit(e) {
     e.preventDefault()
     const user = {
-      username: this.state.username,
+      name: this.state.name,
       email: this.state.email,
       password: this.state.password,
       password2: this.state.password2
     }
-
-    console.log(user)
+    
+    UserService.register(user).then( response => {
+      if(!response.error) {
+        console.log(response)
+        this.props.history.push('/login')
+      }else{
+        // error
+      }
+    })
   }
-
+  /**
+   * [onChange description]
+   *
+   * @param   {[type]}  e  [e description]
+   *
+   * @return  {[type]}     [return description]
+   */
   onChange(e) {
     this.setState({
       [e.target.name]: e.target.value
     });
   }
+  
   render() {
     return (
       <div className="app flex-row align-items-center">
@@ -66,7 +104,7 @@ class Register extends Component {
                           <i className="icon-user"></i>
                         </span>
                       </div>
-                      <Input type="text" name="username" value={this.state.username} onChange={this.onChange} placeholder="Enter username"/>
+                      <Input type="text" name="name" value={this.state.name} onChange={this.onChange} placeholder="Enter username"/>
                     </InputGroup>
                     <InputGroup className="mb-3">
                       <div className="input-group-prepend">
@@ -90,7 +128,15 @@ class Register extends Component {
                       </div>
                       <Input type="password" name="password2" value={this.state.password2} onChange={this.onChange} placeholder="Repeat password"/>
                     </InputGroup>
-                    <Button type="submit" color="success" block>Create Account</Button>
+                   
+                    <Row>
+                      <Col xs="12" sm="6">
+                         <Button type="submit" color="primary" block>Create Account</Button>
+                      </Col>
+                      <Col xs="12" sm="6">
+                        <Button color="success" block href="/login">Already have an Account?</Button>
+                      </Col>
+                    </Row>
                   </form>
                 </CardBody>
                 <CardFooter className="p-4">

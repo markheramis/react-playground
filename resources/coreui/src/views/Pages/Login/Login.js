@@ -30,19 +30,26 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    localStorage.clear();
+    if(AuthService.getUser()) {
+      // if has user session
+      this.props.history.push('/')
+    }else{
+      // if no user session
+      localStorage.clear(); // make sure everything is cleaned
+    }
   }
 
   onSubmit (e) {
     e.preventDefault();
     const credentials = {
-      username: this.state.email,
+      email: this.state.email,
       password: this.state.password
     };
     AuthService.login(credentials).then( response => {
       if(!response.errors) {
         // Login success
         localStorage.setItem("u", JSON.stringify(response.data))
+        this.props.history.push('/')
       }else{
         // Login failed
       }
@@ -99,7 +106,7 @@ class Login extends Component {
                       <h2>Sign up</h2>
                       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
                         labore et dolore magna aliqua.</p>
-                      <Button color="primary" className="mt-3" active>Register Now!</Button>
+                      <Button color="primary" className="mt-3" active href="/register">Register Now!</Button>
                     </div>
                   </CardBody>
                 </Card>

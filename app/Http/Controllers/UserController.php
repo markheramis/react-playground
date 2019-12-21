@@ -29,6 +29,7 @@ class UserController extends Controller
         }
         return $token;
     }
+
     public function login(Request $request)
     {
         $user = \App\User::where('email', $request->email)->get()->first();
@@ -48,6 +49,7 @@ class UserController extends Controller
 
         return response()->json($response, 201);
     }
+
     public function register(Request $request)
     {
         $payload = [
@@ -81,10 +83,12 @@ class UserController extends Controller
         endif;
         return response()->json($response, 201);
     }
+
     public function get(Request $request)
     {
         return $request->user();
     }
+    
     public function list(Request $request)
     {
         $users = App\User::all();

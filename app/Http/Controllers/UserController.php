@@ -7,9 +7,12 @@ use App\User;
 use JWTAuth;
 use JWTAuthException;
 
+use App\Http\Requests\User\LoginRequest;
+use App\Http\Requests\User\RegistrationRequest;
+
 class UserController extends Controller
 {
-    private function getToken($email, $password)
+    private function __getToken($email, $password)
     {
         $token = null;
         //$credentials = $request->only('email', 'password');
@@ -30,12 +33,12 @@ class UserController extends Controller
         return $token;
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         $user = \App\User::where('email', $request->email)->get()->first();
         if ($user && \Hash::check($request->password, $user->password)) // The passwords match...
         {
-            $token = self::getToken($request->email, $request->password);
+            $token = self::__getToken($request->email, $request->password);
             $user->auth_token = $token;
             $user->save();
             $response = ['success' => true, 'data' => [
@@ -50,7 +53,7 @@ class UserController extends Controller
         return response()->json($response, 201);
     }
 
-    public function register(Request $request)
+    public function register(RegistrationRequest $request)
     {
         $payload = [
             'password' => \Hash::make($request->password),
@@ -61,7 +64,7 @@ class UserController extends Controller
 
         $user = new \App\User($payload);
         if ($user->save()) :
-            $token = self::getToken($request->email, $request->password); // generate user token
+            $token = self::__getToken($request->email, $request->password); // generate user token
 
             if (!is_string($token))
                 return response()->json([

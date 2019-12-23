@@ -13,6 +13,7 @@ import {
   InputGroup,
   InputGroupAddon
 } from 'reactstrap';
+
 class Register extends Component {
 
   /**
@@ -35,20 +36,7 @@ class Register extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
   }
-  /**
-   * [componentDidMount description]
-   *
-   * @return  {[type]}  [return description]
-   */
-  componentDidMount() {
-    if (AuthService.getUser()) {
-      // if has user session
-      this.props.history.push('/')
-    } else {
-      // if no user session
-      localStorage.clear(); // make sure everything is cleaned
-    }
-  }
+  
   /**
    * [onSubmit description]
    *

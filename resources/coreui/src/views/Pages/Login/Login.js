@@ -25,8 +25,8 @@ class Login extends Component {
 
     this.self = this
 
-    this.onSubmit = this.onSubmit.bind(this)
-    this.onChange = this.onChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
   componentDidMount() {
@@ -39,27 +39,26 @@ class Login extends Component {
     }
   }
 
-  onSubmit (e) {
+  handleSubmit (e) {
     e.preventDefault();
     const credentials = {
       email: this.state.email,
       password: this.state.password
     };
-    AuthService.login(credentials).then( response => {
+    AuthService.login(credentials).then( (response) => {
       if(!response.errors) {
         // Login success
-        localStorage.setItem("u", JSON.stringify(response.data))
         this.props.history.push('/')
       }else{
         // Login failed
       }
+    }, () => {
+      console.log('Error')
     })
   }
 
-  onChange (e) {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
+  handleChange (e) {
+    this.setState({[e.target.name]: e.target.value})
   }
   render() {
     return (
@@ -70,7 +69,7 @@ class Login extends Component {
               <CardGroup>
                 <Card className="p-4">
                   <CardBody>
-                    <form onSubmit={this.onSubmit}>
+                    <form onSubmit={this.handleSubmit}>
                       <h1>Login</h1>
                       <p className="text-muted">Sign In to your account</p>
                       <InputGroup className="mb-3">
@@ -79,7 +78,7 @@ class Login extends Component {
                             <i className="icon-user"></i>
                           </span>
                         </div>
-                        <Input type="email" name="email" value={this.state.email} onChange={this.onChange.bind(this)} placeholder="Enter Username" />
+                        <Input type="email" name="email" value={this.state.email} onChange={this.handleChange.bind(this)} placeholder="Enter Username" />
                       </InputGroup>
                       <InputGroup className="mb-4">
                         <div className="input-group-prepend">
@@ -87,7 +86,7 @@ class Login extends Component {
                             <i className="icon-lock"></i>
                           </span>
                         </div>
-                        <Input type="password" name="password" value={this.state.password} onChange={this.onChange.bind(this)} placeholder="Password" />
+                        <Input type="password" name="password" value={this.state.password} onChange={this.handleChange.bind(this)} placeholder="Password" />
                       </InputGroup>
                       <Row>
                         <Col xs="6">

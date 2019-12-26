@@ -33,8 +33,8 @@ class Register extends Component {
       password2: ''
     }
 
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
   
   /**
@@ -44,7 +44,7 @@ class Register extends Component {
    *
    * @return  {[type]}     [return description]
    */
-  onSubmit(e) {
+  handleSubmit(e) {
     e.preventDefault()
     const user = {
       name: this.state.name,
@@ -69,7 +69,7 @@ class Register extends Component {
    *
    * @return  {[type]}     [return description]
    */
-  onChange(e) {
+  handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value
     });
@@ -83,7 +83,7 @@ class Register extends Component {
             <Col md="6">
               <Card className="mx-4">
                 <CardBody className="p-4">
-                  <form onSubmit={this.onSubmit}>
+                  <form onSubmit={this.handleSubmit}>
                     <h1>Register</h1>
                     <p className="text-muted">Create your account</p>
                     <InputGroup className="mb-3">
@@ -92,13 +92,13 @@ class Register extends Component {
                           <i className="icon-user"></i>
                         </span>
                       </div>
-                      <Input type="text" name="name" value={this.state.name} onChange={this.onChange} placeholder="Enter username"/>
+                      <Input type="text" name="name" value={this.state.name} onChange={this.handleChange} placeholder="Enter username"/>
                     </InputGroup>
                     <InputGroup className="mb-3">
                       <div className="input-group-prepend">
                         <span className="input-group-text">@</span>
                       </div>
-                      <Input type="email" name="email" value={this.state.email} onChange={this.onChange} placeholder=" Enter Email"/>
+                      <Input type="email" name="email" value={this.state.email} onChange={this.handleChange} placeholder=" Enter Email"/>
                     </InputGroup>
                     <InputGroup className="mb-3">
                       <div className="input-group-prepend">
@@ -106,7 +106,7 @@ class Register extends Component {
                           <i className="icon-lock"></i>
                         </span>
                       </div>
-                      <Input type="password" name="password" value={this.state.password} onChange={this.onChange} placeholder="Password"/>
+                      <Input type="password" name="password" value={this.state.password} onChange={this.handleChange} placeholder="Password"/>
                     </InputGroup>
                     <InputGroup className="mb-4">
                       <div className="input-group-prepend">
@@ -114,7 +114,7 @@ class Register extends Component {
                           <i className="icon-lock"></i>
                         </span>
                       </div>
-                      <Input type="password" name="password2" value={this.state.password2} onChange={this.onChange} placeholder="Repeat password"/>
+                      <Input type="password" name="password2" value={this.state.password2} onChange={this.handleChange} placeholder="Repeat password"/>
                     </InputGroup>
                    
                     <Row>

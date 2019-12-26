@@ -63,15 +63,19 @@ class UserController extends Controller
             $user->auth_token = $token;
             $user->save();
             if ($user->save()) {
-                return response()->json([
-                    'success' => true,
-                    'data' => [
-                        'id' => $user->id,
-                        'auth_token' => $user->auth_token,
-                        'name' => $user->name,
-                        'email' => $user->email,
-                    ]
-                ], 200);
+                return response()
+                    ->json([
+                        'success' => true,
+                        'data' => [
+                            'id' => $user->id,
+                            'auth_token' => $user->auth_token,
+                            'name' => $user->name,
+                            'email' => $user->email,
+                        ]
+                    ], 200)
+                    ->withCookie(
+                        cookie('token', $user->auth_token,60)
+                    );
             }
         } else {
             return response()->json([

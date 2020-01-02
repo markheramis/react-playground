@@ -1,64 +1,69 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 import {
-  Container, 
-  Row, 
-  Col, 
-  CardGroup, 
-  Card, 
-  CardBody, 
-  Button, 
-  Input, 
-  InputGroup, 
+  Container,
+  Row,
+  Col,
+  CardGroup,
+  Card,
+  CardBody,
+  Button,
+  Input,
+  InputGroup,
   InputGroupAddon
-} from 'reactstrap';
-import AuthService from '../../../service/AuthService'
+} from "reactstrap";
+import AuthService from "../../../service/AuthService";
 
 class Login extends Component {
-
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
-      email: '',
-      password: '',
-      message: ''
-    }
+      email: "",
+      password: "",
+      message: ""
+    };
 
-    this.self = this
+    this.self = this;
 
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
-    if(AuthService.getUser()) {
+    if (AuthService.getUser()) {
       // if has user session
-      this.props.history.push('/')
-    }else{
+      this.props.history.push("/");
+    } else {
       // if no user session
       localStorage.clear(); // make sure everything is cleaned
     }
   }
 
-  handleSubmit (e) {
+  handleSubmit(e) {
     e.preventDefault();
     const credentials = {
       email: this.state.email,
       password: this.state.password
     };
-    AuthService.login(credentials).then( (response) => {
-      if(!response.errors) {
-        // Login success
-        this.props.history.push('/')
-      }else{
-        // Login failed
+    AuthService.login(credentials).then(
+      response => {
+        if (!response.errors) {
+          // Login success
+          console.log(response.data.data);
+          localStorage.setItem("u", JSON.stringify(response.data.data));
+          this.props.history.push("/");
+        } else {
+          // Login failed
+          console.log("Login Failed");
+        }
+      },
+      () => {
+        console.log("Error");
       }
-    }, () => {
-      console.log('Error')
-    })
+    );
   }
 
-  handleChange (e) {
-    this.setState({[e.target.name]: e.target.value})
+  handleChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
   }
   render() {
     return (
@@ -78,7 +83,13 @@ class Login extends Component {
                             <i className="icon-user"></i>
                           </span>
                         </div>
-                        <Input type="email" name="email" value={this.state.email} onChange={this.handleChange.bind(this)} placeholder="Enter Username" />
+                        <Input
+                          type="email"
+                          name="email"
+                          value={this.state.email}
+                          onChange={this.handleChange.bind(this)}
+                          placeholder="Enter Username"
+                        />
                       </InputGroup>
                       <InputGroup className="mb-4">
                         <div className="input-group-prepend">
@@ -86,26 +97,53 @@ class Login extends Component {
                             <i className="icon-lock"></i>
                           </span>
                         </div>
-                        <Input type="password" name="password" value={this.state.password} onChange={this.handleChange.bind(this)} placeholder="Password" />
+                        <Input
+                          type="password"
+                          name="password"
+                          value={this.state.password}
+                          onChange={this.handleChange.bind(this)}
+                          placeholder="Password"
+                        />
                       </InputGroup>
                       <Row>
                         <Col xs="6">
-                          <Button type="submit" color="primary" className="px-4">Login</Button>
+                          <Button
+                            type="submit"
+                            color="primary"
+                            className="px-4"
+                          >
+                            Login
+                          </Button>
                         </Col>
                         <Col xs="6" className="text-right">
-                          <Button color="link" className="px-0">Forgot password?</Button>
+                          <Button color="link" className="px-0">
+                            Forgot password?
+                          </Button>
                         </Col>
                       </Row>
                     </form>
                   </CardBody>
                 </Card>
-                <Card className="text-white bg-primary py-5 d-md-down-none" style={{ width: 44 + '%' }}>
+                <Card
+                  className="text-white bg-primary py-5 d-md-down-none"
+                  style={{ width: 44 + "%" }}
+                >
                   <CardBody className="text-center">
                     <div>
                       <h2>Sign up</h2>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua.</p>
-                      <Button color="primary" className="mt-3" active href="/register">Register Now!</Button>
+                      <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit, sed do eiusmod tempor incididunt ut labore et
+                        dolore magna aliqua.
+                      </p>
+                      <Button
+                        color="primary"
+                        className="mt-3"
+                        active
+                        href="/register"
+                      >
+                        Register Now!
+                      </Button>
                     </div>
                   </CardBody>
                 </Card>

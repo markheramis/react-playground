@@ -63,20 +63,13 @@ class UserController extends Controller
             $user->auth_token = $token;
             $user->save();
             if ($user->save()) {
-                return response()
-                    ->json([
-                        'success' => true,
-                        'data' => [
-                            'auth_token' => $user->auth_token,
-                            'name' => $user->name,
-                        ]
-                    ], 200);
+                return response()->success([
+                    'auth_token' => $user->auth_token,
+                    'name' => $user->name,
+                ]);
             }
         } else {
-            return response()->json([
-                'success' => false,
-                'data' => 'User record not found',
-            ], 404);
+            return response()->error('User record not found');
         }
     }
 

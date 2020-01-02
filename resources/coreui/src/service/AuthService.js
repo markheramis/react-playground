@@ -1,4 +1,5 @@
 import axios from 'axios'
+import cookie from '../helpers/Cookie'
 
 
 class AuthService {
@@ -22,6 +23,8 @@ class AuthService {
     }
 
     isLoggedIn() {
+        let c = cookie.get('token')
+        console.log(c)
         return (localStorage.getItem("u"))
     }
 

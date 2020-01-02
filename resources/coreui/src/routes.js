@@ -2,6 +2,10 @@ const routes = {
   '/': 'Home',
   '/dashboard': 'Dashboard',
 
+  '/user/list': 'ListUser',
+  '/user/edit': 'EditUser',
+  '/user/create': 'CreateUser',
+
   '/tours/create': 'CreateTours',
   '/tours/edit': 'EditTours',
   '/tours/list': 'ListTours',

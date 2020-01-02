@@ -21,6 +21,10 @@ import CreateTours from "../../views/Tours/CreateTours/";
 import EditTours from "../../views/Tours/EditTours/";
 import ListTours from "../../views/Tours/ListTours/";
 
+import CreateUser from '../../views/Users/CreateUser';
+import EditUser from '../../views/Users/EditUser';
+import ListUser from '../../views/Users/ListUser';
+
 class Full extends Component {
   render() {
     return (
@@ -76,6 +80,22 @@ class Full extends Component {
                   path="/tours/list"
                   name="ListTours"
                   component={ListTours}
+                />
+
+                <Route
+                  path="/user/create"
+                  name="CreateUser"
+                  component={CreateUser}
+                />
+                <Route
+                  path="/user/edit"
+                  name="EditUser"
+                  component={EditUser}
+                />
+                <Route
+                  path="/user/list"
+                  name="ListUser"
+                  component={ListUser}
                 />
 
                 <Redirect from="/" to="/dashboard" />

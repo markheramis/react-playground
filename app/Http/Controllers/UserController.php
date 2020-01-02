@@ -69,7 +69,7 @@ class UserController extends Controller
                 ]);
             }
         } else {
-            return response()->error('User record not found');
+            return response()->error('User record not found', 401);
         }
     }
 
@@ -81,40 +81,47 @@ class UserController extends Controller
      */
     public function register(RegistrationRequest $request)
     {
-        $payload = [
-            'password' => \Hash::make($request->password),
-            'email' => $request->email,
-            'name' => $request->name,
-            'auth_token' => ''
-        ];
-
-        $user = new User($payload);
-        if ($user->save()) :
-            $token = self::__getToken($request->email, $request->password); // generate user token
-
-            if (!is_string($token))
-                return response()->json([
-                    'success' => false,
-                    'data' => 'Token generation failed'
-                ], 201);
-
-            $user = User::where('email', $request->email)->get()->first();
-            $user->auth_token = $token; // update user token
-            $user->save();
-            $response = ['success' => true, 'data' => [
-                'name' => $user->name,
-                'id' => $user->id,
+        try {
+            $payload = [
+                'password' => \Hash::make($request->password),
                 'email' => $request->email,
-                'auth_token' => $token
-            ]];
-        else :
-            $response = ['success' => false, 'data' => 'Couldnt register user'];
-        endif;
-        return response()->json($response, 201);
-    }
+                'name' => $request->name,
+                'auth_token' => ''
+            ];
+            $user = new User($payload);
+            if ($user->save()) :
+                $token = self::__getToken($request->email, $request->password); // generate user token
 
-    public function logout()
-    {
+                if (!is_string($token))
+                    return response()->json([
+                        'success' => false,
+                        'data' => 'Token generation failed'
+                    ], 201);
+
+                $user = User::where('email', $request->email)->get()->first();
+                $user->auth_token = $token; // update user token
+                $user->save();
+                $response = ['success' => true, 'data' => [
+                    'name' => $user->name,
+                    'id' => $user->id,
+                    'email' => $request->email,
+                    'auth_token' => $token
+                ]];
+
+                if ($user->save()) :
+                    return response()->success([
+                        'name' => $user->name,
+                        'auth_token' => $token,
+                    ]);
+                else :
+                    return response()->error('Failed registering user');
+                endif;
+            else :
+                return response()->error('Failed registering user');
+            endif;
+        } catch (\Exception $e) {
+            return response()->error($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
@@ -134,17 +141,12 @@ class UserController extends Controller
                     'success' => true,
                     'data' => $user
                 ], 200);
+                return response()->success($user);
             } else {
-                return response()->json([
-                    'success' => false,
-                    'data' => 'User record not found',
-                ], 404);
+                return response()->error('User record not found', 404);
             }
-        } catch (\Exception $ex) {
-            return response()->json([
-                'success' => false,
-                'data' => $ex->getMessage(),
-            ], 500);
+        } catch (\Exception $e) {
+            return response()->error($e->getMessage(), $e->getCode());
         }
     }
 
@@ -159,21 +161,12 @@ class UserController extends Controller
         try {
             $users = User::all();
             if ($users->count()) {
-                return response()->json([
-                    'success' => true,
-                    'data' => $users,
-                ], 200);
+                return response()->success($users);
             } else {
-                return response()->json([
-                    'success' => true,
-                    'data' => 'User record not found',
-                ], 404);
+                return response()->error('No users in the database', 404);
             }
-        } catch (\Exception $ex) {
-            return response()->json([
-                'success' => false,
-                'data' => $ex->getMessage(),
-            ], 500);
+        } catch (\Exception $e) {
+            return response()->error($e->getMessage(), $e->getCode());
         }
     }
 

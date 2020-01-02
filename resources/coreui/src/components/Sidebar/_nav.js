@@ -6,16 +6,7 @@ export default {
       icon: 'icon-speedometer'
     },
     {
-      title: true,
-      name: '360 Tours',
-      Wrapper: {
-        element: '',
-        attributes: {}
-      },
-      class: ''
-    },
-    {
-      name: 'Tours',
+      name: '360 TOURS',
       url: '/tours',
       children: [
         {
@@ -29,16 +20,7 @@ export default {
       ]
     },
     {
-      title: true,
-      name: '360 Campaigns',
-      Wrapper: {
-        element: '',
-        attributes: {}
-      },
-      class: ''
-    },
-    {
-      name: 'Campaign',
+      name: '360 CAMPAIGNS',
       url: '/campaign',
       children: [
         {
@@ -48,6 +30,20 @@ export default {
         {
           name: 'Create',
           url: '/campaign/create'
+        }
+      ]
+    },
+    {
+      name: 'USERS',
+      url: '/user',
+      children: [
+        {
+          name: 'List',
+          url: '/user/list'
+        },
+        {
+          name: 'Create',
+          url: '/user/create'
         }
       ]
     }

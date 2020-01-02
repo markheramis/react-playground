@@ -67,15 +67,10 @@ class UserController extends Controller
                     ->json([
                         'success' => true,
                         'data' => [
-                            'id' => $user->id,
                             'auth_token' => $user->auth_token,
                             'name' => $user->name,
-                            'email' => $user->email,
                         ]
-                    ], 200)
-                    ->withCookie(
-                        cookie('token', $user->auth_token,60)
-                    );
+                    ], 200);
             }
         } else {
             return response()->json([

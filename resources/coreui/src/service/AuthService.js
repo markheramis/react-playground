@@ -1,6 +1,4 @@
 import axios from "axios";
-import cookie from "../helpers/Cookie";
-
 class AuthService {
   /**
    * Submit a REST API request to the login end-point to generate a JWT token

@@ -15,5 +15,4 @@ require('./bootstrap');
  */
 
 /* Import the Main component */
-require('../../coreui/src/index.js');
-
+require('./index.js')

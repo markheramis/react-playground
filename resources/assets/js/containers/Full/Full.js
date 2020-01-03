@@ -6,7 +6,9 @@ import Sidebar from "../../components/Sidebar/";
 import Breadcrumb from "../../components/Breadcrumb/";
 import Aside from "../../components/Aside/";
 import Footer from "../../components/Footer/";
-/* Pages */
+/**
+ * Pages
+ */
 import Dashboard from "../../views/Dashboard/";
 
 import CreateAds from "../../views/Ads/CreateAds/";
@@ -41,15 +43,21 @@ class Full extends Component {
                   name="Dashboard"
                   component={Dashboard}
                 />
-
                 <Route
                   path="/ads/create"
                   name="CreateAds"
                   component={CreateAds}
                 />
-                <Route path="/ads/edit" name="EditAds" component={EditAds} />
-                <Route path="/ads/list" name="ListAds" component={ListAds} />
-
+                <Route
+                  path="/ads/edit"
+                  name="EditAds"
+                  component={EditAds}
+                />
+                <Route
+                  path="/ads/list"
+                  name="ListAds"
+                  component={ListAds}
+                />
                 <Route
                   path="/campaign/create"
                   name="CreateCampaigns"
@@ -65,7 +73,6 @@ class Full extends Component {
                   name="ListCampaign"
                   component={ListCampaigns}
                 />
-
                 <Route
                   path="/tours/create"
                   name="CreateTours"
@@ -81,7 +88,6 @@ class Full extends Component {
                   name="ListTours"
                   component={ListTours}
                 />
-
                 <Route
                   path="/user/create"
                   name="CreateUser"
@@ -97,7 +103,6 @@ class Full extends Component {
                   name="ListUser"
                   component={ListUser}
                 />
-
                 <Redirect from="/" to="/dashboard" />
               </Switch>
             </Container>
